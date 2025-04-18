@@ -1,15 +1,13 @@
-CC = gcc
-CFLAGS = -Wall -Wextra -std=c11
-TARGET = temp_app
-SOURCES = main.c temp_functions.c
-HEADERS = temp_functions.h
+all: temp_stats
 
-all: $(TARGET)
+temp_stats: main.o temp_functions.o
+	$(CC) -o temp_stats main.o temp_functions.o
 
-$(TARGET): $(SOURCES) $(HEADERS)
-	$(CC) $(CFLAGS) $(SOURCES) -o $(TARGET)
+main.o: main.c temp_functions.h
+	$(CC) -c main.c
+
+temp_functions.o: temp_functions.c temp_functions.h
+	$(CC) -c temp_functions.c
 
 clean:
-	rm -f $(TARGET)
-
-.PHONY: all clean
+	rm -f *.o temp_stats
