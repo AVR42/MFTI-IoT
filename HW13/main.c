@@ -18,10 +18,10 @@ int main(int argc, char *argv[]) {
             return 0;
         } else if (strcmp(argv[i], "-f") == 0 && i + 1 < argc) {
             filename = argv[++i];
-            printf("Файл для обработки: %s\n", filename); // Отладочное сообщение
+            // printf("Файл для обработки: %s\n", filename); // Отладочное сообщение
         } else if (strcmp(argv[i], "-m") == 0 && i + 1 < argc) {
             month = atoi(argv[++i]);
-            printf("Запрашиваемая статистика за месяц: %d\n", month); // Отладочное сообщение
+            // printf("Запрашиваемая статистика за месяц: %d\n", month); // Отладочное сообщение
         }
     }
 
@@ -31,9 +31,9 @@ int main(int argc, char *argv[]) {
     }
 
     // Чтение CSV файла
-    Reading readings[MAX_READINGS];
-    int count = read_csv(filename, readings);
-    printf("Чтение завершено. Всего записей: %d\n", count); // Отладочное сообщение
+    Reading *readings = NULL;
+    int count = read_csv_file(filename, &readings);
+    // printf("Чтение завершено. Всего записей: %d\n", count); // Отладочное сообщение
 
     if (count <= 0) {
         fprintf(stderr, "Не удалось считать данные из файла.\n");
@@ -49,6 +49,8 @@ int main(int argc, char *argv[]) {
         // Годовая статистика
         print_year_stats(readings, count);
     }
+
+    free(readings);
 
     return 0;
 }
